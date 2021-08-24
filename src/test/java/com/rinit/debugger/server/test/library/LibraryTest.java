@@ -1,5 +1,6 @@
-package com.rinit.debugger.server.test;
+package com.rinit.debugger.server.test.library;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import com.rinit.debugger.server.file.library.ClassToLoadInfo;
 
 public class LibraryTest{
 	
-	private String testContent = "<library><physicalFile><physicalLocation>C://asd/asd.asd</physicalLocation></physicalFile><classesToLoad><loadClass><name>ads</name><path>com.rinit.debugger.server.utils.ExceptionUtils</path></loadClass></classesToLoad></library>\r\n";
+	public final static String testContent = "<library><physicalFile><physicalLocation>C:\\Users\\Dell\\eclipse-workspace\\Rinit\\upload\\test.jar</physicalLocation></physicalFile><classesToLoad><loadClass><name>test</name><path>com.rinit.debugger.server.utils.ExceptionUtils</path></loadClass></classesToLoad></library>\r\n";
 		
 	@Test
 	public void libraryToContextnTest() {
@@ -40,7 +41,8 @@ public class LibraryTest{
 		LibraryDriver library =  new LibraryDriver();
 		library.fromDTO(dto);
 		library.loadClasses();
-		assertTrue(library.getLoadedClassed().size() > 0);
+		assertNotEquals(library.getLoadedClasses().get("test"), null);
+		assertTrue(library.getLoadedClasses().size() > 0);
 	}
 
 }

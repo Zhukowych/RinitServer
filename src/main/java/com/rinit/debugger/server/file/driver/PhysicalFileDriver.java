@@ -1,3 +1,4 @@
+
 package com.rinit.debugger.server.file.driver;
 
 import org.w3c.dom.Document;
@@ -49,7 +50,6 @@ public class PhysicalFileDriver implements IFileDriver{
 	}
 	
 	public void fromContent(String content) {
-		System.out.println(content);
 		XMLReader reader = new XMLReader(content);
 		Document document = reader.getDocument();
 		this.filePath = reader.getTagValue("physicalLocation", document.getDocumentElement());

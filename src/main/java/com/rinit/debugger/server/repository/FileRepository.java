@@ -40,6 +40,6 @@ public interface FileRepository extends CrudRepository<FileEntity, Long>{
 		);
 	
 	@Modifying
-	@Query("DELETE FROM `files` WHERE path LIKE ':path%'")
+	@Query("DELETE FROM `files` WHERE `path` LIKE CONCAT(:path, '%')")
 	void deleteAllChildrensOfPath(@Param("path") String path);
 }

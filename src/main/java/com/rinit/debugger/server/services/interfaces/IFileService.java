@@ -6,6 +6,8 @@ import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
 
 public interface IFileService {
+	public FileDTO saveFile(FileDTO file) throws ServiceException;
+	
 	public FileDTO createFile(FileDTO file) throws ServiceException;
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException;
 

@@ -5,5 +5,5 @@ import com.rinit.debugger.server.entity.IFileDriver;
 
 public interface IFileDriverService {
 
-	public void registerDriver(String extention, IFileDriver driver);
+	public void registerDriver(String extention, Class<IFileDriver> driver);
 }

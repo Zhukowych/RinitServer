@@ -19,13 +19,13 @@ import lombok.Setter;
 @Setter
 public class LibraryDriver implements IFileDriver{
 
-	private final static String EXTENTION = "lib";
+	public final static String EXTENTION = "lib";
 
 	private String name;
 	private PhysicalFileDriver physicalFile;
 	
 	private List<ClassToLoadInfo> classesToLoad = new ArrayList<ClassToLoadInfo>();
-	private Map<String, Class> loadedClassed = new HashMap<String, Class>();
+	private Map<String, Class> loadedClasses = new HashMap<String, Class>();
 
 	@Override
 	public void fromDTO(FileDTO dto) {
@@ -60,7 +60,7 @@ public class LibraryDriver implements IFileDriver{
 		classLoader.setPhysicalFile(physicalFile);
 		classLoader.setClassesToLoad(classesToLoad);
 		classLoader.loadClasses();
-		this.loadedClassed = classLoader.getLoadedClasses();
+		this.loadedClasses = classLoader.getLoadedClasses();
 	}
 	
 

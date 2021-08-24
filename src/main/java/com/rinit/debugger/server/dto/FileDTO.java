@@ -16,4 +16,17 @@ public class FileDTO {
 	private int position;
 	private String content;
 	
+	public String getChildrenPath() {
+		return String.format("%s%s/", this.path, this.name);
+	}
+	
+	public void write(String string) {
+		if (this.content == null)
+			this.content = "";
+		this.content += string;
+	}
+	
+	public void clear() {
+		this.content = "";
+	}
 }

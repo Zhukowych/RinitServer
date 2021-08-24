@@ -1,6 +1,8 @@
-package com.rinit.debugger.server.services;
+package com.rinit.debugger.server.services.file;
 
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,20 +30,26 @@ public class FileService implements IFileService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
+	@PostConstruct
+	private void configureFileService() {
+		FileServiceConfigurer configurer = new FileServiceConfigurer(this);
+		configurer.configure();
+	}
+	
 	@Override
-	public FileDTO createFile(FileDTO fileDTO) throws ServiceException {
-		if(this.isFileExists(fileDTO)) {
-			throw new ServiceException(String.format("File with name %s already exists", fileDTO.getName()));
+	public FileDTO saveFile(FileDTO file) throws ServiceException {
+		if(!this.isFileExists(file)) {
+			throw new ServiceException(String.format("Thre is no file with path %s and %s", file.getPath(), file.getName()));
 		}
-		
-		FileEntity entity = mapper.dtoToEntity(fileDTO);
-		try {
-			repository.save(entity);
-		} catch(Exception ex) {
-			logger.error(ExceptionUtils.stackTraceToString(ex));
-			throw new ServiceException(ex.getMessage(), ex);
+		return this.saveDTO(file);
+	}
+	
+	@Override
+	public FileDTO createFile(FileDTO file) throws ServiceException {
+		if(this.isFileExists(file)) {
+			throw new ServiceException(String.format("File with name %s already exists", file.getName()));
 		}
-		return mapper.entityToDTO(entity);
+		return this.saveDTO(file);
 	}
 	
 	@Override
@@ -88,6 +96,18 @@ public class FileService implements IFileService {
 			logger.error(ExceptionUtils.stackTraceToString(ex));
 			throw new ServiceException(ex.getMessage(), ex);
 		}
+	}
+	
+	private FileDTO saveDTO(FileDTO dto) throws ServiceException {
+		FileEntity entity = mapper.dtoToEntity(dto);
+		try {
+			repository.save(entity);
+		} catch(Exception ex) {
+			logger.error(ExceptionUtils.stackTraceToString(ex));
+			throw new ServiceException(ex.getMessage(), ex);
+		}
+		return mapper.entityToDTO(entity);
+		
 	}
 	
 }

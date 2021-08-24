@@ -27,19 +27,19 @@ public class FilesController {
 	@Autowired
 	private IFileService fileService;
 	
-	private static final String GET_FILES_URL = "/files/";
-	private static final String CREATE_FILE_URL = "/file/";
+	public static final String GET_FILES_URL = "/files/";
+	public static final String CREATE_FILE_URL = "/file/";
 	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 	
 	@GetMapping(GET_FILES_URL)
 	@ResponseBody
-	ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {
+	public ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {
 		return new ResponseEntity<>(this.fileService.getFilesByPath(path), HttpStatus.OK);
 	}
 	
 	@PostMapping(CREATE_FILE_URL)
 	@ResponseBody
-	ResponseEntity<FileDTO> createFile(@RequestBody FileDTO fileDTO) {
+	public ResponseEntity<FileDTO> createFile(@RequestBody FileDTO fileDTO) {
 		FileDTO savedFile;
 		try {
 			savedFile = fileService.createFile(fileDTO);
