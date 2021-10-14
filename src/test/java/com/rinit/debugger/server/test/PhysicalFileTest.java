@@ -32,7 +32,7 @@ public class PhysicalFileTest {
 	        "file", 
 	        testFileName, 
 	        MediaType.TEXT_PLAIN_VALUE, 
-	        new FileToBytesConverter("src/test/resources/testFileToUpload").getBytes()
+	        new FileToBytesConverter("src/test/resources/test_executable.jar").getBytes()
 	    	);
 	    
 		this.mockMvc.perform(multipart(PhysicalFileController.LOAD_FILE_URL)

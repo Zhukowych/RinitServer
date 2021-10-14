@@ -7,14 +7,12 @@ import com.rinit.debugger.server.services.interfaces.IFileService;
 
 public class RLogger {
 	
-	private IFileService fileService = Env.getFileService();
+	protected IFileService fileService;
 	
 	private FileDTO logFile;
 	
-	
-	
 	public RLogger(FileDTO logFile) {
-		System.out.println("create log");
+		fileService = Env.getFileService();
 		try {
 			this.logFile = fileService.createFile(logFile);
 		} catch (ServiceException e) {
@@ -34,4 +32,5 @@ public class RLogger {
 			e.printStackTrace();
 		}
 	}
+
 }

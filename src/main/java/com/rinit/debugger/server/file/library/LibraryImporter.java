@@ -25,7 +25,6 @@ public class LibraryImporter {
 	public List<ClassToLoadInfo> getClassesToLoad() {
 		return classesToLoad;
 	}
-
 	
 	public void parse(String content) {
 		XMLReader reader = new XMLReader(content);
@@ -34,7 +33,6 @@ public class LibraryImporter {
 		this.physicalFile.fromContent(reader.innerXml("physicalFile"));
 		this.parseClassesToLoad(reader, document);
 	}
-	
 	
 	private void parseClassesToLoad(XMLReader reader, Document document) {
 		NodeList classesToLoad = document.getElementsByTagName("loadClass");
@@ -49,9 +47,5 @@ public class LibraryImporter {
 			this.classesToLoad.add(classInfo);
 		}
 	}
-	
-	
-	
-	
 	
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.rinit.debugger.server.services.interfaces.IFileService;
 
-@Component
+@Component("Env")
 public class Env implements ApplicationContextAware {
 	
 	private static ApplicationContext applicatonContext;

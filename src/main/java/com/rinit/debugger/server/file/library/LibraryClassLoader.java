@@ -1,11 +1,9 @@
 package com.rinit.debugger.server.file.library;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +11,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rinit.debugger.server.controller.FilesController;
 import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 
 public class LibraryClassLoader {
@@ -21,19 +18,31 @@ public class LibraryClassLoader {
 	private static final Logger logger = LoggerFactory.getLogger(LibraryClassLoader.class);
 	
 	private List<ClassToLoadInfo> classesToLoad;
+	
+	private LibraryDriver library;
 	private PhysicalFileDriver physicalFile;
 	
 	private Map<String, Class> loadedClassed = new HashMap<String, Class>();
-	private List<String> errors = new ArrayList<String>();
+	private LibraryLoadReport loadReport = new LibraryLoadReport();
 	
 	public void setClassesToLoad(List<ClassToLoadInfo> classesToLoad) {
 		this.classesToLoad = classesToLoad;
 	}
 
-	public void setPhysicalFile(PhysicalFileDriver physicalFile) {
-		this.physicalFile = physicalFile;
+	public void setLibrary(LibraryDriver library) {
+		this.library = library;
+		this.physicalFile = this.library.getPhysicalFile();
+		this.loadReport.setLibrary(library);
 	}
 
+	public Map<String, Class> getLoadedClasses(){
+		return this.loadedClassed;
+	}
+	
+	public LibraryLoadReport getLoadReport() {
+		return this.loadReport;
+	}
+	
 	public void loadClasses() {
 		File jarFile = new File(this.physicalFile.getFilePath());
 		URLClassLoader child = null;
@@ -43,7 +52,9 @@ public class LibraryClassLoader {
 			        this.getClass().getClassLoader()
 			);
 		} catch (MalformedURLException e1) {
-			logger.error(String.format("There is no physical file with path %s", this.physicalFile.getFilePath()));
+			String error = String.format("There is no physical file with path %s", this.physicalFile.getFilePath());
+			this.loadReport.addError(error);
+			logger.error(error);
 		}
 		for (ClassToLoadInfo loadInfo : this.classesToLoad) {
 			try {
@@ -51,17 +62,17 @@ public class LibraryClassLoader {
 						loadInfo.getName(), 
 						this.getClassFromClassLoader(loadInfo, child)
 					);
+				this.loadReport.addLoadedClass(loadInfo);
 			} catch (ClassNotFoundException e) {
-				logger.warn(String.format("Can't load class %s from jar file %s", loadInfo.getPath(), this.physicalFile.getFilePath()));
+				String error = String.format("Can't load class %s from jar file %s", loadInfo.getPath(), this.physicalFile.getFilePath()); 
+				this.loadReport.addError(error);
+				logger.error(error);
 			}
 		}
-	}
-	
-	public Map<String, Class> getLoadedClasses(){
-		return this.loadedClassed;
 	}
 	
 	private Class getClassFromClassLoader(ClassToLoadInfo classToLoad, ClassLoader classLoader) throws ClassNotFoundException {
 		return Class.forName(classToLoad.getPath(), true, classLoader);
 	}
+
 }

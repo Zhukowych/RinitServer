@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.rinit.debugger.server.entity.IFileDriver;
-import com.rinit.debugger.server.file.driver.LibraryDriver;
+import com.rinit.debugger.server.file.library.LibraryDriver;
 import com.rinit.debugger.server.services.interfaces.IFileDriverService;
 
 @Service

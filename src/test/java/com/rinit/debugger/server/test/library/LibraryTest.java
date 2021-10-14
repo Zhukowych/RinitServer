@@ -9,13 +9,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.file.driver.LibraryDriver;
 import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 import com.rinit.debugger.server.file.library.ClassToLoadInfo;
+import com.rinit.debugger.server.file.library.LibraryDriver;
 
 public class LibraryTest{
 	
-	public final static String testContent = "<library><physicalFile><physicalLocation>C:\\Users\\Dell\\eclipse-workspace\\Rinit\\upload\\test.jar</physicalLocation></physicalFile><classesToLoad><loadClass><name>test</name><path>com.rinit.debugger.server.utils.ExceptionUtils</path></loadClass></classesToLoad></library>\r\n";
+	public final static String testContent = "<library><physicalFile><physicalLocation>C:\\Users\\Dell\\eclipse-workspace\\Rinit\\upload\\test_executable.jar</physicalLocation></physicalFile><classesToLoad><loadClass><name>test_executable</name><path>com.rinit.debugger.server.test.TestExecutable</path></loadClass></classesToLoad></library>\r\n";
 		
 	@Test
 	public void libraryToContextnTest() {

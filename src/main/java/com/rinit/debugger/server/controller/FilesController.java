@@ -30,14 +30,14 @@ public class FilesController {
 	public static final String GET_FILES_URL = "/files/";
 	public static final String CREATE_FILE_URL = "/file/";
 	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
-	
-	@GetMapping(GET_FILES_URL)
+	@GetMapping(FileControllerUrls.GET_FILES_URL)
 	@ResponseBody
 	public ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {
+		System.out.println(1);
 		return new ResponseEntity<>(this.fileService.getFilesByPath(path), HttpStatus.OK);
 	}
 	
-	@PostMapping(CREATE_FILE_URL)
+	@PostMapping(FileControllerUrls.CREATE_FILE_URL)
 	@ResponseBody
 	public ResponseEntity<FileDTO> createFile(@RequestBody FileDTO fileDTO) {
 		FileDTO savedFile;

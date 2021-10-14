@@ -13,8 +13,10 @@ public interface IFileService {
 
 	public List<FileDTO> getFilesByPath(String path);
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention);
-	public boolean isFileExists(FileDTO dto);
 	
 	public void deleteFile(FileDTO dto);
 	public void deleteAllChildrenOfPath(String path) throws ServiceException;
+
+	public boolean isFileExists(FileDTO dto);
+	public List<String> getAllChildrenDirs(String baseDir, String extention);
 }

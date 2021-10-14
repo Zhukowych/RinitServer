@@ -1,6 +1,7 @@
 package com.rinit.debugger.server.test.library;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rinit.debugger.server.controller.FilesController;
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.file.driver.LibraryDriver;
+import com.rinit.debugger.server.file.library.LibraryDriver;
 
 /* 
  * test for uploading test liba
@@ -30,7 +31,7 @@ public class LoadLibraryTest {
 	
 	@Test
 	public void loadLibraryTest() throws Exception {
-		FileDTO dto = FileDTO.builder().content(LibraryTest.testContent).name("test_lib").path("/lib/ext/").extention(LibraryDriver.EXTENTION).build();
+		FileDTO dto = FileDTO.builder().content(LibraryTest.testContent).name("test_executable").path("/lib/bin/").extention(LibraryDriver.EXTENTION).build();
 		this.mockMvc.perform(post(FilesController.CREATE_FILE_URL)
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsBytes(dto))

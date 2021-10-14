@@ -16,8 +16,7 @@ import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.repository.FileRepository;
 import com.rinit.debugger.server.services.interfaces.IFileService;
 import com.rinit.debugger.server.utils.ExceptionUtils;
-
-
+import com.rinit.debugger.server.utils.FileDTOUtils;
 
 @Service
 public class FileService implements IFileService {
@@ -73,15 +72,6 @@ public class FileService implements IFileService {
 	}
 	
 	@Override
-	public boolean isFileExists(FileDTO dto) {
-		if( this.repository.getFilesByNameExtentionPath(dto.getName(), dto.getExtention(), dto.getPath()).size() == 0 )
-			return false;
-		else
-			return true;
-	}
-
-
-	@Override
 	public void deleteFile(FileDTO dto) {
 		FileEntity entity = mapper.dtoToEntity(dto);
 		repository.delete(entity);
@@ -97,6 +87,27 @@ public class FileService implements IFileService {
 			throw new ServiceException(ex.getMessage(), ex);
 		}
 	}
+	
+	/// UTIL ///
+	
+	@Override
+	public boolean isFileExists(FileDTO dto) {
+		if( this.repository.getFilesByNameExtentionPath(dto.getName(), dto.getExtention(), dto.getPath()).size() == 0 )
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public List<String> getAllChildrenDirs(String baseDir, String extention) {
+		List<String> paths  = FileDTOUtils.getChildrenPathsList(this.getFilesByPathAndExtention(baseDir, "directory"));
+		int i = 0;
+		while( i < paths.size()) {
+			paths.addAll(FileDTOUtils.getChildrenPathsList(this.getFilesByPathAndExtention(paths.get(i), "directory")));
+			i++;
+		}
+		return paths;
+	}	
 	
 	private FileDTO saveDTO(FileDTO dto) throws ServiceException {
 		FileEntity entity = mapper.dtoToEntity(dto);

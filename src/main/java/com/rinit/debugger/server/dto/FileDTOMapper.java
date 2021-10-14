@@ -23,8 +23,12 @@ public class FileDTOMapper {
 	}
 	
 	public FileEntity dtoToEntity(FileDTO dto) {
+		Long id = null;
+		if (dto.getId() != null && dto.getId() != 0) {
+			id = dto.getId();
+		}
 		FileEntity entity = FileEntity.builder()
-						.id(dto.getId())
+						.id(id)
 						.name(dto.getName())
 						.extention(dto.getExtention())
 						.path(dto.getPath())

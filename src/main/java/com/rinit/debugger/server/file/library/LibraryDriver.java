@@ -1,4 +1,4 @@
-package com.rinit.debugger.server.file.driver;
+package com.rinit.debugger.server.file.library;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,10 +7,7 @@ import java.util.Map;
 
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.entity.IFileDriver;
-import com.rinit.debugger.server.file.library.ClassToLoadInfo;
-import com.rinit.debugger.server.file.library.LibraryClassLoader;
-import com.rinit.debugger.server.file.library.LibraryExporter;
-import com.rinit.debugger.server.file.library.LibraryImporter;
+import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +23,8 @@ public class LibraryDriver implements IFileDriver{
 	
 	private List<ClassToLoadInfo> classesToLoad = new ArrayList<ClassToLoadInfo>();
 	private Map<String, Class> loadedClasses = new HashMap<String, Class>();
-
+	private LibraryLoadReport loadReport;
+	
 	@Override
 	public void fromDTO(FileDTO dto) {
 		 this.name = dto.getName();
@@ -57,11 +55,25 @@ public class LibraryDriver implements IFileDriver{
 	
 	public void loadClasses() {
 		LibraryClassLoader classLoader = new LibraryClassLoader();
-		classLoader.setPhysicalFile(physicalFile);
+		classLoader.setLibrary(this);
 		classLoader.setClassesToLoad(classesToLoad);
 		classLoader.loadClasses();
 		this.loadedClasses = classLoader.getLoadedClasses();
+		this.loadReport = classLoader.getLoadReport();
+		
 	}
 	
+	public LibraryLoadReport getLoadReport() {
+		return this.loadReport;
+	}
+	
+	public Class<?> getClassWithName(String name) throws LibraryClassNotFoundException{
+		Class<?> libraryClass = this.loadedClasses.get(name);
+		if (libraryClass != null) {
+			return libraryClass;
+		} else {
+			throw new LibraryClassNotFoundException(String.format("There is no class with name %s in library", name));
+		}
+	}
 
 }
