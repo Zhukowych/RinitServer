@@ -41,8 +41,8 @@ public class ExecutableService implements IExecutableService {
 
 	@PostConstruct
 	private void config() {
-		ExecutableConfigurer configurer = new ExecutableConfigurer(this);
-		configurer.config();
+		//ExecutableConfigurer configurer = new ExecutableConfigurer(this);
+		//configurer.config();
 	}
 	
 	@Override

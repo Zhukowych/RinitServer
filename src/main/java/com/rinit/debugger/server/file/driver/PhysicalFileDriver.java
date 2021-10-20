@@ -4,15 +4,18 @@ package com.rinit.debugger.server.file.driver;
 import org.w3c.dom.Document;
 
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.entity.IFileDriver;
+import com.rinit.debugger.server.file.IFileDriver;
 import com.rinit.debugger.server.utils.XMLReader;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class PhysicalFileDriver implements IFileDriver{

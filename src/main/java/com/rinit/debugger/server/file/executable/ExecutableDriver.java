@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 import com.rinit.debugger.server.client.IClient;
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.entity.IFileDriver;
+import com.rinit.debugger.server.file.IFileDriver;
 
 public class ExecutableDriver implements IFileDriver {
 

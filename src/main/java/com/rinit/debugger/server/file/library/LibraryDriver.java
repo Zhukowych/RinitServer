@@ -1,12 +1,13 @@
 package com.rinit.debugger.server.file.library;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.entity.IFileDriver;
+import com.rinit.debugger.server.file.IFileDriver;
 import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class LibraryDriver implements IFileDriver{
 	public final static String EXTENTION = "lib";
 
 	private String name;
+	private String path;
 	private PhysicalFileDriver physicalFile;
 	
 	private List<ClassToLoadInfo> classesToLoad = new ArrayList<ClassToLoadInfo>();
@@ -28,6 +30,7 @@ public class LibraryDriver implements IFileDriver{
 	@Override
 	public void fromDTO(FileDTO dto) {
 		 this.name = dto.getName();
+		 this.path = dto.getPath();
 		 LibraryImporter parser = new LibraryImporter();
 		 parser.parse(dto.getContent());
 		 this.physicalFile = parser.getPhysicalFile();
@@ -41,6 +44,7 @@ public class LibraryDriver implements IFileDriver{
 					  .extention(EXTENTION)
 					  .position(0)
 					  .content(this.getContent())
+					  .path(this.path)
 					  .build();
 	}
 	
@@ -52,6 +56,9 @@ public class LibraryDriver implements IFileDriver{
 		return exporter.export();
 	}
 	
+	public void addClassToLoad(ClassToLoadInfo classToLoadInfo) {
+		this.classesToLoad.add(classToLoadInfo);
+	}
 	
 	public void loadClasses() {
 		LibraryClassLoader classLoader = new LibraryClassLoader();
@@ -60,7 +67,6 @@ public class LibraryDriver implements IFileDriver{
 		classLoader.loadClasses();
 		this.loadedClasses = classLoader.getLoadedClasses();
 		this.loadReport = classLoader.getLoadReport();
-		
 	}
 	
 	public LibraryLoadReport getLoadReport() {
@@ -75,5 +81,5 @@ public class LibraryDriver implements IFileDriver{
 			throw new LibraryClassNotFoundException(String.format("There is no class with name %s in library", name));
 		}
 	}
-
+	
 }

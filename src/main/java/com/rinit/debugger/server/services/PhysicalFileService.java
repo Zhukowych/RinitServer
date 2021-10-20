@@ -51,7 +51,6 @@ public class PhysicalFileService implements IPhysicalFileService {
 	    	fileService.deleteFile(fileDTO);
 	    	throw new ServiceException(String.format("Physical file with name %s already exists", file.getOriginalFilename()));
 	    }
-	    
 	    try {
 			Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {

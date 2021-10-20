@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 import com.rinit.debugger.server.client.IClient;
 import com.rinit.debugger.server.core.Extentions;
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.entity.IFileDriver;
+import com.rinit.debugger.server.file.IFileDriver;
 import com.rinit.debugger.server.file.executable.ExecutableDriver;
 import com.rinit.debugger.server.utils.XMLReader;
 

@@ -90,4 +90,11 @@ public class FileServiceClient implements IFileService{
 		return null;
 	}
 
+
+	@Override
+	public List<FileDTO> getFileByPathAndName(String path, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

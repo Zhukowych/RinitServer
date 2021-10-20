@@ -30,6 +30,7 @@ public class FilesController {
 	public static final String GET_FILES_URL = "/files/";
 	public static final String CREATE_FILE_URL = "/file/";
 	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
+
 	@GetMapping(FileControllerUrls.GET_FILES_URL)
 	@ResponseBody
 	public ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {

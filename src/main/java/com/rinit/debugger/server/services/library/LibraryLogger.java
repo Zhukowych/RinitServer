@@ -18,7 +18,7 @@ public class LibraryLogger extends RLogger{
 	private static final Logger logger = LoggerFactory.getLogger(LibraryLogger.class);
 	
 	private static FileDTO logFile = FileDTO.builder().name("log").extention("log").path("/run/services/library/").build();
-	private FileDTO statusFile = FileDTO.builder().name("status").extention("log").path("/run/services/library/").build();
+	private FileDTO statusFile = FileDTO.builder().name("status").extention("status").path("/run/services/library/").build();
 	
 	
 	public LibraryLogger() {
@@ -29,7 +29,7 @@ public class LibraryLogger extends RLogger{
 	public void logStatus(LibraryLoadReportSerializer serviceStatusReport) {
 		this.statusFile.cwrite(serviceStatusReport.toString());
 		try {
-			this.fileService.saveFile(statusFile);
+			this.statusFile = this.fileService.saveFile(statusFile);
 		} catch (ServiceException e) {
 			logger.error("can't save status file in library service", ExceptionUtils.stackTraceToString(e));
 		}
@@ -37,7 +37,7 @@ public class LibraryLogger extends RLogger{
 	
 	private void createStatusFile() {
 		try {
-			this.fileService.createFile(statusFile);
+			this.statusFile = this.fileService.createFile(statusFile);
 		} catch (ServiceException e) {
 			logger.error("can't create status file in library service", ExceptionUtils.stackTraceToString(e));
 		}		

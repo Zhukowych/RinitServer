@@ -1,11 +1,9 @@
 package com.rinit.debugger.server.services.library;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.rinit.debugger.server.core.Extentions;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.file.library.LibraryDriver;
+import com.rinit.debugger.server.file.library.LibraryLoadReportDeserializer;
 import com.rinit.debugger.server.file.library.LibraryLoadReportSerializer;
 import com.rinit.debugger.server.file.library.LibraryNotFoundException;
 import com.rinit.debugger.server.services.interfaces.IFileService;
@@ -28,7 +27,6 @@ public class LibraryService implements ILibraryService {
 	@Autowired
 	private LibraryLogger logger;
 	
-	private Map<String, List<LibraryDriver>> librariesByDirectories = new HashMap<String, List<LibraryDriver>>();
 	private LibraryLoadReportSerializer serviceStatusReport = new LibraryLoadReportSerializer();
 
 	@PostConstruct
@@ -39,41 +37,61 @@ public class LibraryService implements ILibraryService {
 	
 	@Override
 	public LibraryDriver getLibraryByPathName(String path, String name) throws LibraryNotFoundException {
-		List<LibraryDriver> librariesInDir = librariesByDirectories.get(path);
-		if (librariesInDir == null) 
-			throw new LibraryNotFoundException("There is no such library");
-		
-		for (LibraryDriver library : librariesInDir) {
-			if (library.getName().equals(name)) {
-				return library;
-			}
-		} 
-		throw new LibraryNotFoundException("There is no such library");
+		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
+		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
+		if (!libraryServieStatus.isExistLibrary(path, name)) {
+			throw new LibraryNotFoundException(String.format("Library in %s and name %s not founded", path, name));
+		} else {
+			return this.createLibraryPathFromPathName(path, name);
+		}
+	}
+
+	@Override
+	public List<String> getLocatedPathes() {
+		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
+		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
+		return libraryServieStatus.getLocatedPathes();
+	}
+
+	@Override
+	public List<String> getLibrariesNamesByPath(String path) throws SerialException {
+		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
+		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
+		List<String> libraryNames = libraryServieStatus.getLibrariesNamesByPath(path);
+		if (libraryNames == null) {
+			throw new SerialException(String.format("libraries names by path %s not found", path));
+		}
+		return libraryNames;
 	}
 	
 	@Override
-	public void loadLibraries() {
+	public void checkLibraries() {
 		List<String> libratiesDirs = fileService.getAllChildrenDirs("/lib/", Extentions.DIRECTORY);
-		this.addLibrariesToMap(libratiesDirs);
+		this.checkLibrariesByDir(libratiesDirs);
 		this.logResult();
 	}
 	
-	private void addLibrariesToMap(List<String> libraryDirs){
+	private LibraryDriver createLibraryPathFromPathName(String path, String name) {
+		FileDTO libraryFile = this.fileService.getFileByPathAndName(path, name).get(0);
+		LibraryDriver library = new LibraryDriver();
+		library.fromDTO(libraryFile);
+		library.loadClasses();
+		return library;
+	}
+	
+	private void checkLibrariesByDir(List<String> libraryDirs){
 		for(String dir : libraryDirs) {
-			this.addDirsLibrariesToMap(dir, fileService.getFilesByPathAndExtention(dir, LibraryDriver.EXTENTION));
+			this.checkDirsLibraries(dir, fileService.getFilesByPathAndExtention(dir, LibraryDriver.EXTENTION));
 		}
 	}
 	
-	private void addDirsLibrariesToMap(String dir, List<FileDTO> librariesDTOs) {
-		List<LibraryDriver> dirsLibraryDrivers = new ArrayList<LibraryDriver>(librariesDTOs.size());
+	private void checkDirsLibraries(String dir, List<FileDTO> librariesDTOs) {
 		for (FileDTO dto : librariesDTOs) {
 			LibraryDriver library = new LibraryDriver();
 			library.fromDTO(dto);
 			library.loadClasses();
-			dirsLibraryDrivers.add(library);
 			this.serviceStatusReport.addLibraryReport(library.getLoadReport());
 		}
-		librariesByDirectories.put(dir, dirsLibraryDrivers);
 	}
 	
 	private void logResult() {

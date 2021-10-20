@@ -11,6 +11,6 @@ public class LibraryServiceConfigurer {
 	}
 	
 	public void configure() {
-		libraryService.loadLibraries();
+		libraryService.checkLibraries();
 	}
 }

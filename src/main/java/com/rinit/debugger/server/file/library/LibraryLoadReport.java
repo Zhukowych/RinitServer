@@ -7,6 +7,8 @@ import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 
 public class LibraryLoadReport {
 	
+	private String libraryName;
+	private String libraryPath;
 	private LibraryDriver library;
 	private List<ClassToLoadInfo> loadedClasses = new ArrayList<ClassToLoadInfo>();
 	private List<String> errors = new ArrayList<String>();
@@ -26,13 +28,23 @@ public class LibraryLoadReport {
 	public String toString() {
 		StringBuilder xmlBuilder = new StringBuilder("");
 		xmlBuilder.append("<libraryReport>");
+		xmlBuilder.append("<libraryName>");
+		xmlBuilder.append(this.library.getName());
+		xmlBuilder.append("</libraryName>");
+		xmlBuilder.append("<libraryPath>");
+		xmlBuilder.append(this.library.getPath());
+		xmlBuilder.append("</libraryPath>");
 		xmlBuilder.append(this.library.getContent());
 		xmlBuilder.append("<loadedClasses>");
 		this.addLoadedClasesTo(xmlBuilder);
 		xmlBuilder.append("</loadedClasses>");
-		xmlBuilder.append("<errors>");
-		this.addErrorsTo(xmlBuilder);
-		xmlBuilder.append("<errors/>");		
+		if (this.errors.size() != 0) {
+			xmlBuilder.append("<errors>");
+			this.addErrorsTo(xmlBuilder);
+			xmlBuilder.append("<errors/>");
+		} else {
+			xmlBuilder.append("<errors/>");	
+		}
 		xmlBuilder.append("</libraryReport>");
 		return xmlBuilder.toString();
 	}

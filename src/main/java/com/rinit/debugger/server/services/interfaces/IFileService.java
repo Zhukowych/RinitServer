@@ -13,6 +13,7 @@ public interface IFileService {
 
 	public List<FileDTO> getFilesByPath(String path);
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention);
+	public List<FileDTO> getFileByPathAndName(String path, String name);
 	
 	public void deleteFile(FileDTO dto);
 	public void deleteAllChildrenOfPath(String path) throws ServiceException;

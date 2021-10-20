@@ -72,6 +72,12 @@ public class FileService implements IFileService {
 	}
 	
 	@Override
+	public List<FileDTO> getFileByPathAndName(String path, String name) {
+		List<FileEntity> entities = this.repository.getFileByPathAndName(name, path);
+		return mapper.entityToDtoList(entities);
+	}
+	
+	@Override
 	public void deleteFile(FileDTO dto) {
 		FileEntity entity = mapper.dtoToEntity(dto);
 		repository.delete(entity);
@@ -81,7 +87,7 @@ public class FileService implements IFileService {
 	@Override
 	public void deleteAllChildrenOfPath(String path) throws ServiceException {
 		try {
-			repository.deleteAllChildrensOfPath(path);
+			repository.deleteAllChildrensOfPath(path); 
 		} catch(Exception ex) {
 			logger.error(ExceptionUtils.stackTraceToString(ex));
 			throw new ServiceException(ex.getMessage(), ex);

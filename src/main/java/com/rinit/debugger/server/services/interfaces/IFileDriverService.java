@@ -1,9 +1,14 @@
 package com.rinit.debugger.server.services.interfaces;
 
-import com.rinit.debugger.server.entity.IFileDriver;
+import java.util.List;
+
+import com.rinit.debugger.server.exception.ServiceException;
+import com.rinit.debugger.server.file.library.LibraryDriver;
 
 
 public interface IFileDriverService {
 
-	public void registerDriver(String extention, Class<IFileDriver> driver);
+	public List<String> getAvailableFileDrivers() throws ServiceException;
+	public LibraryDriver getDriverLibraryByName(String name) throws ServiceException;
+	
 }

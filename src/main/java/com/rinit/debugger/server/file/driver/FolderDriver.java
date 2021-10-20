@@ -1,7 +1,7 @@
 package com.rinit.debugger.server.file.driver;
 
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.entity.IFileDriver;
+import com.rinit.debugger.server.file.IFileDriver;
 
 import lombok.Getter;
 import lombok.Setter;
