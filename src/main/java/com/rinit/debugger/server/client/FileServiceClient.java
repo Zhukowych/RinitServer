@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.rinit.debugger.server.controller.FileControllerUrls;
+import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.services.interfaces.IFileService;
@@ -23,8 +23,7 @@ public class FileServiceClient implements IFileService{
 	public FileServiceClient(String serviceHost) {
 		this.serviceHost = serviceHost;
 	}
-	
-	
+		
 	@Override
 	public FileDTO saveFile(FileDTO file) throws ServiceException {
 		return null;
@@ -67,6 +66,15 @@ public class FileServiceClient implements IFileService{
 	}
 
 	@Override
+	public List<FileDTO> getFileByPathAndName(String path, String name) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.serviceHost + FileControllerUrls.GET_FILES_BY_PATH_NAME);
+		builder.queryParam("path", path);
+		builder.queryParam("name", name);
+		List<FileDTO> files = new ArrayList<FileDTO>(Arrays.asList(this.template.getForObject(builder.toUriString(), FileDTO[].class)));
+		return files;
+	}
+	
+	@Override
 	public void deleteFile(FileDTO dto) {
 		// TODO Auto-generated method stub
 		
@@ -89,12 +97,5 @@ public class FileServiceClient implements IFileService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	@Override
-	public List<FileDTO> getFileByPathAndName(String path, String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

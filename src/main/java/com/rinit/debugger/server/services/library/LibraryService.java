@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.rinit.debugger.server.core.Extentions;
 import com.rinit.debugger.server.dto.FileDTO;
+import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.file.library.LibraryDriver;
 import com.rinit.debugger.server.file.library.LibraryLoadReportDeserializer;
 import com.rinit.debugger.server.file.library.LibraryLoadReportSerializer;
@@ -54,12 +55,12 @@ public class LibraryService implements ILibraryService {
 	}
 
 	@Override
-	public List<String> getLibrariesNamesByPath(String path) throws SerialException {
+	public List<String> getLibrariesNamesByPath(String path) throws ServiceException {
 		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
 		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
 		List<String> libraryNames = libraryServieStatus.getLibrariesNamesByPath(path);
 		if (libraryNames == null) {
-			throw new SerialException(String.format("libraries names by path %s not found", path));
+			throw new ServiceException(String.format("libraries names by path %s not found", path));
 		}
 		return libraryNames;
 	}

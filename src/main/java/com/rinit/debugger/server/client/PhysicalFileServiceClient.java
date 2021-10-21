@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.rinit.debugger.server.controller.FileControllerUrls;
+import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
 import com.rinit.debugger.server.services.interfaces.IPhysicalFileService;

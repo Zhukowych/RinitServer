@@ -25,7 +25,7 @@ public class FileDriverService implements IFileDriverService {
 	public List<String> getAvailableFileDrivers() throws ServiceException {
 		try {
 			return this.libraryService.getLibrariesNamesByPath(FILE_DRIVERS_PATH);
-		} catch (SerialException e) {
+		} catch (ServiceException e) {
 			throw new ServiceException("There are no drivers");
 		}
 	}

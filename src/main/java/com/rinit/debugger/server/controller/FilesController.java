@@ -1,3 +1,4 @@
+
 package com.rinit.debugger.server.controller;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.services.interfaces.IFileService;
@@ -48,6 +50,12 @@ public class FilesController {
 			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
 		}
 		return new ResponseEntity<>(savedFile, HttpStatus.OK);
+	}
+	
+	@GetMapping(FileControllerUrls.GET_FILES_BY_PATH_NAME)
+	@ResponseBody
+	public List<FileDTO> getFileByPathAndName(@RequestParam("path") String path, @RequestParam("name") String name){
+		return this.fileService.getFileByPathAndName(path, name);
 	}
 
 }
