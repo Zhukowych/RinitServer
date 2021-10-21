@@ -1,4 +1,3 @@
-
 package com.rinit.debugger.server.controller;
 
 import java.util.List;
@@ -29,17 +28,8 @@ public class FilesController {
 	@Autowired
 	private IFileService fileService;
 	
-	public static final String GET_FILES_URL = "/files/";
-	public static final String CREATE_FILE_URL = "/file/";
 	private static final Logger logger = LoggerFactory.getLogger(FilesController.class);
 
-	@GetMapping(FileControllerUrls.GET_FILES_URL)
-	@ResponseBody
-	public ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {
-		System.out.println(1);
-		return new ResponseEntity<>(this.fileService.getFilesByPath(path), HttpStatus.OK);
-	}
-	
 	@PostMapping(FileControllerUrls.CREATE_FILE_URL)
 	@ResponseBody
 	public ResponseEntity<FileDTO> createFile(@RequestBody FileDTO fileDTO) {
@@ -50,6 +40,24 @@ public class FilesController {
 			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
 		}
 		return new ResponseEntity<>(savedFile, HttpStatus.OK);
+	}
+	
+	@PostMapping(FileControllerUrls.SAVE_FILE)
+	@ResponseBody
+	public ResponseEntity<FileDTO> saveFile(@RequestBody FileDTO fileDTO) {
+		FileDTO savedFile;
+		try {
+			savedFile = fileService.saveFile(fileDTO);
+		} catch (ServiceException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+		}
+		return new ResponseEntity<>(savedFile, HttpStatus.OK);
+	}
+	
+	@GetMapping(FileControllerUrls.GET_FILES_URL)
+	@ResponseBody
+	public ResponseEntity<List<FileDTO>> getFilesByPath(@RequestParam("path") String path) {
+		return new ResponseEntity<>(this.fileService.getFilesByPath(path), HttpStatus.OK);
 	}
 	
 	@GetMapping(FileControllerUrls.GET_FILES_BY_PATH_NAME)

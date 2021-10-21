@@ -26,7 +26,13 @@ public class FileServiceClient implements IFileService{
 		
 	@Override
 	public FileDTO saveFile(FileDTO file) throws ServiceException {
-		return null;
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+	    headers.setContentType(MediaType.APPLICATION_XML);
+
+		HttpEntity<FileDTO> request = new HttpEntity<>(file, headers);
+		FileDTO savedFile = template.postForObject(this.serviceHost + FileControllerUrls.SAVE_FILE, request, FileDTO.class);
+		return savedFile;
 	}
 
 	@Override
