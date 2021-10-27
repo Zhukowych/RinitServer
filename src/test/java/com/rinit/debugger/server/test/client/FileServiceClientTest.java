@@ -1,3 +1,4 @@
+
 package com.rinit.debugger.server.test.client;
 
 import static org.junit.Assert.assertNotNull;
@@ -50,4 +51,5 @@ public class FileServiceClientTest {
 	private String getServiceHost() {
 		return String.format(rinitServiceHost, port);
 	}
+
 }

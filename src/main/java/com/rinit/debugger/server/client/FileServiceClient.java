@@ -103,5 +103,11 @@ public class FileServiceClient implements IFileService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<FileDTO> getFilesByParentPathExtention(String parentPath, String extention) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -5,17 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.rinit.debugger.server.services.interfaces.IExecutableService;
+import com.rinit.debugger.server.services.interfaces.IBinService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class RunExecutableTest {
 	
 	@Autowired
-	private IExecutableService executableService;
+	private IBinService executableService;
 	
 	@Test	
 	public void runExecutableTest() {
-		executableService.runExecutableWithName("test_executable");
+		executableService.runBinWithName("test_executable");
 	}
 	
 	

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 import com.rinit.debugger.server.dto.FileDTO;
-import com.rinit.debugger.server.file.executable.ExecutableDriver;
+import com.rinit.debugger.server.file.bin.BinDriver;
 
 public class ExecutableDriverTest {
 	
@@ -14,9 +14,9 @@ public class ExecutableDriverTest {
 	@Test
 	public void executableDriverTest() {
 		FileDTO dto = FileDTO.builder().name("test_exe").content(testContent).build();
-		ExecutableDriver executable = new ExecutableDriver();
+		BinDriver executable = new BinDriver();
 		executable.fromDTO(dto);
-		assertNotNull(executable.getExecutableLibraryName());
-		assertNotNull(executable.getExecutableLibraryPath());
+		assertNotNull(executable.getBinLibraryName());
+		assertNotNull(executable.getBinLibraryPath());
 	}
 }

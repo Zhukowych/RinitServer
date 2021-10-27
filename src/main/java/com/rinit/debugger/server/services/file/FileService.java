@@ -78,6 +78,12 @@ public class FileService implements IFileService {
 	}
 	
 	@Override
+	public List<FileDTO> getFilesByParentPathExtention(String parentPath, String extention) {
+		List<FileEntity> entities = this.repository.getFilesByParentPathExtention(parentPath, extention);
+		return mapper.entityToDtoList(entities);
+	}
+	
+	@Override
 	public void deleteFile(FileDTO dto) {
 		FileEntity entity = mapper.dtoToEntity(dto);
 		repository.delete(entity);
@@ -126,6 +132,7 @@ public class FileService implements IFileService {
 		return mapper.entityToDTO(entity);
 		
 	}
+
 	
 }
 

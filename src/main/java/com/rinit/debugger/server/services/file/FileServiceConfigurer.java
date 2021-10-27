@@ -34,6 +34,7 @@ public class FileServiceConfigurer {
 
 	// ENVIREMENT SERVICES DIRECTORIES
 	private FileDTO libraryServiceDirectory = FileDTO.builder().name("library").extention("directory").path("/run/services/").position(0).content("").build();
+	private FileDTO binServiceDirectory = FileDTO.builder().name("bin").extention("directory").path("/run/services/").position(0).content("").build();
 	
 	
 	// PHYSICAL FILE
@@ -90,6 +91,7 @@ public class FileServiceConfigurer {
 	
 	private void createServicesDirectories() throws ServiceException  {
 		fileService.createOrCheckFile(libraryServiceDirectory);
+		fileService.createOrCheckFile(binServiceDirectory);
 	}
 	
 }

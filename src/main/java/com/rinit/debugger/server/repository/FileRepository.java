@@ -57,6 +57,24 @@ public interface FileRepository extends CrudRepository<FileEntity, Long>{
 			@Param("path") String path			
 		);
 	
+	@Query("SELECT "
+			 + "	`id`,"
+			 + "	`name`,"
+			 + "	`extention`,"
+			 + "	`path`,"
+			 + "	`position`,"
+			 + "	`content` "
+			 + "FROM "
+			 + "	`files`"
+			 + "WHERE "
+			 + "	path LIKE CONCAT(:parentPath, '%')"
+			 + "	AND extention = :extention"
+			 )
+	List<FileEntity> getFilesByParentPathExtention(
+			@Param("parentPath") String parentPath,
+			@Param("extention") String extention
+			);
+	
 	@Modifying
 	@Query("DELETE FROM `files` WHERE `path` LIKE CONCAT(:path, '%')")
 	void deleteAllChildrensOfPath(@Param("path") String path);

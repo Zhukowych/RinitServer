@@ -11,7 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
+import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 
 public class LibraryClassLoader {
 	
@@ -31,8 +31,8 @@ public class LibraryClassLoader {
 
 	public void setLibrary(LibraryDriver library) {
 		this.library = library;
+		this.loadReport.setLibrary(this.library);
 		this.physicalFile = this.library.getPhysicalFile();
-		this.loadReport.setLibrary(library);
 	}
 
 	public Map<String, Class> getLoadedClasses(){

@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rinit.debugger.server.controller.FilesController;
+import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.core.Extentions;
 import com.rinit.debugger.server.dto.FileDTO;
 
@@ -26,8 +26,8 @@ public class ExecutableLoadTest {
 	
 	@Test
 	public void loadExecutableTest() throws Exception {
-		FileDTO dto = FileDTO.builder().content(ExecutableDriverTest.testContent).name("test_executable").path("/bin/").extention(Extentions.EXECUTABLE).build();
-		this.mockMvc.perform(post(FilesController.CREATE_FILE_URL)
+		FileDTO dto = FileDTO.builder().content(ExecutableDriverTest.testContent).name("test_executable").path("/bin/").extention(Extentions.BIN).build();
+		this.mockMvc.perform(post(FileControllerUrls.CREATE_FILE_URL)
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsBytes(dto))
 				).andExpect(status().isOk());

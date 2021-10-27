@@ -3,7 +3,7 @@ package com.rinit.debugger.server.file.library;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
+import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 
 public class LibraryLoadReport {
 	
@@ -41,7 +41,7 @@ public class LibraryLoadReport {
 		if (this.errors.size() != 0) {
 			xmlBuilder.append("<errors>");
 			this.addErrorsTo(xmlBuilder);
-			xmlBuilder.append("<errors/>");
+			xmlBuilder.append("</errors>");
 		} else {
 			xmlBuilder.append("<errors/>");	
 		}

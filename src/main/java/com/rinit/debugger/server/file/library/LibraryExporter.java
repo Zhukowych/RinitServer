@@ -3,7 +3,7 @@ package com.rinit.debugger.server.file.library;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
+import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 
 public class LibraryExporter {
 	
@@ -28,7 +28,7 @@ public class LibraryExporter {
 			xmlBuilder.append(classInfo.getName());
 			xmlBuilder.append("</name>");
 			xmlBuilder.append("<path>");
-			xmlBuilder.append(classInfo.getName());
+			xmlBuilder.append(classInfo.getPath());
 			xmlBuilder.append("</path>");
 			xmlBuilder.append("</loadClass>");
 		}

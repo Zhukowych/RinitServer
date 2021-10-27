@@ -17,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.exception.ServiceException;
-import com.rinit.debugger.server.file.driver.PhysicalFileDriver;
+import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 import com.rinit.debugger.server.services.interfaces.IPhysicalFileService;
 
 public class PhysicalFileServiceClient implements IPhysicalFileService {
