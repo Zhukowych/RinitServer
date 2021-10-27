@@ -24,7 +24,7 @@ public class LibraryDriver implements IFileDriver{
 	private PhysicalFileDriver physicalFile;
 	
 	private List<ClassToLoadInfo> classesToLoad = new ArrayList<ClassToLoadInfo>();
-	private Map<String, Class> loadedClasses = new HashMap<String, Class>();
+	private Map<String, Class<?>> loadedClasses = new HashMap<String, Class<?>>();
 	private LibraryLoadReport loadReport;
 	
 	@Override

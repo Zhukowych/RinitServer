@@ -42,7 +42,7 @@ public class BinLoadReportDeserializer {
 		for (int i = 0; i < loadedBins.getLength(); i++) {
 			Node node = loadedBins.item(i);
 			String binName = this.reader.getTagValue("name", (Element)node);
-			String binLibraryPath = this.reader.getTagValue("loadedBins", (Element)node);
+			String binLibraryPath = this.reader.getTagValue("libraryPath", (Element)node);
 			String binLibraryName = this.reader.getTagValue("libraryName", (Element)node);
 			this.loadedBins.put(binName, new BinLoadReport(binName, binLibraryPath, binLibraryName));
 		}

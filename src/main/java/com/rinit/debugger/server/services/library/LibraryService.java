@@ -1,14 +1,18 @@
 package com.rinit.debugger.server.services.library;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.sql.rowset.serial.SerialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rinit.debugger.server.core.Extentions;
+import com.rinit.debugger.server.dev.core.DevConfiguration;
+import com.rinit.debugger.server.dev.core.DevLibs;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.file.library.LibraryDriver;
@@ -27,6 +31,9 @@ public class LibraryService implements ILibraryService {
 	
 	@Autowired
 	private LibraryLogger logger;
+
+	@Autowired 
+	private DevConfiguration devConfiguration;
 	
 	private LibraryLoadReportSerializer serviceStatusReport = new LibraryLoadReportSerializer();
 
@@ -38,24 +45,49 @@ public class LibraryService implements ILibraryService {
 	
 	@Override
 	public LibraryDriver getLibraryByPathName(String path, String name) throws LibraryNotFoundException {
-		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
-		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
-		if (!libraryServieStatus.isExistLibrary(path, name)) {
-			throw new LibraryNotFoundException(String.format("Library in %s and name %s not founded", path, name));
-		} else {
-			return this.createLibraryPathFromPathName(path, name);
-		}
+		LibraryDriver library = null;
+		if (this.devConfiguration.isDev()) 
+			library = this.getLibraryByPathNameDev(path, name);
+		if (library == null) 
+			library = this.getLibraryByPathNameDefault(path, name);
+		return library;
 	}
 
 	@Override
 	public List<String> getLocatedPathes() {
-		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
-		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
-		return libraryServieStatus.getLocatedPathes();
+		Set<String> pathesSet = new HashSet<String>();
+		List<String> pathes = new ArrayList<String>();
+		if (this.devConfiguration.isDev())
+			pathesSet.addAll(this.getLocatedPathesDev());
+		pathesSet.addAll(this.getLocatedPathesDefault());
+		pathes.addAll(pathesSet);
+		return pathes;
 	}
-
+	
 	@Override
 	public List<String> getLibrariesNamesByPath(String path) throws ServiceException {
+		List<String> names = new ArrayList<String>();
+		Set<String> namesSet = new HashSet<String>();
+		if (this.devConfiguration.isDev())
+			namesSet.addAll(this.getLibrariesNamesByPathDev(path));
+		namesSet.addAll(this.getLibrariesNamesByPathDefault(path));
+		names.addAll(namesSet);
+		return names;
+	}
+	
+	@Override
+	public void checkLibraries() {
+		List<String> libratiesDirs = fileService.getAllChildrenDirs("/lib/", Extentions.DIRECTORY);
+		this.checkLibrariesByDir(libratiesDirs);
+		this.logResult();
+	}
+
+	public List<String> getLibrariesNamesByPathDev(String path) {
+		DevLibs libs = new DevLibs();
+		return libs.getDevLibrariesNamesByPathes(path);
+	}
+		
+	public List<String> getLibrariesNamesByPathDefault(String path) throws ServiceException {
 		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
 		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
 		List<String> libraryNames = libraryServieStatus.getLibrariesNamesByPath(path);
@@ -65,11 +97,19 @@ public class LibraryService implements ILibraryService {
 		return libraryNames;
 	}
 	
-	@Override
-	public void checkLibraries() {
-		List<String> libratiesDirs = fileService.getAllChildrenDirs("/lib/", Extentions.DIRECTORY);
-		this.checkLibrariesByDir(libratiesDirs);
-		this.logResult();
+	private LibraryDriver getLibraryByPathNameDev(String path, String name) {
+		DevLibs libs = new DevLibs();
+		return libs.getLibraryDriverByPathName(path, name);
+	}
+	
+	private LibraryDriver getLibraryByPathNameDefault(String path, String name) throws LibraryNotFoundException {
+		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
+		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
+		if (!libraryServieStatus.isExistLibrary(path, name)) {
+			throw new LibraryNotFoundException(String.format("Library in %s and name %s not founded", path, name));
+		} else {
+			return this.createLibraryPathFromPathName(path, name);
+		}
 	}
 	
 	private LibraryDriver createLibraryPathFromPathName(String path, String name) {
@@ -78,6 +118,17 @@ public class LibraryService implements ILibraryService {
 		library.fromDTO(libraryFile);
 		library.loadClasses();
 		return library;
+	}
+	
+	private List<String> getLocatedPathesDev(){
+		DevLibs libs = new DevLibs();
+		return libs.getDevLibrariesPathes();
+	}
+	
+	private List<String> getLocatedPathesDefault() {
+		FileDTO statusFile = this.fileService.getFileByPathAndName("/run/services/library/", "status").get(0);
+		LibraryLoadReportDeserializer libraryServieStatus = new LibraryLoadReportDeserializer(statusFile.getContent());
+		return libraryServieStatus.getLocatedPathes();		
 	}
 	
 	private void checkLibrariesByDir(List<String> libraryDirs){

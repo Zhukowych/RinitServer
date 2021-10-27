@@ -22,7 +22,7 @@ public class LibraryClassLoader {
 	private LibraryDriver library;
 	private PhysicalFileDriver physicalFile;
 	
-	private Map<String, Class> loadedClassed = new HashMap<String, Class>();
+	private Map<String, Class<?>> loadedClassed = new HashMap<String, Class<?>>();
 	private LibraryLoadReport loadReport = new LibraryLoadReport();
 	
 	public void setClassesToLoad(List<ClassToLoadInfo> classesToLoad) {
@@ -35,7 +35,7 @@ public class LibraryClassLoader {
 		this.physicalFile = this.library.getPhysicalFile();
 	}
 
-	public Map<String, Class> getLoadedClasses(){
+	public Map<String, Class<?>> getLoadedClasses(){
 		return this.loadedClassed;
 	}
 	

@@ -38,6 +38,7 @@ public class BinService implements IBinService {
 		autodiscoverer.autodiscover();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void runBinWithName(String name) {
 		BinLoadReportDeserializer deserializer = this.getLoadedBins();
