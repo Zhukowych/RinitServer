@@ -82,8 +82,11 @@ public class FileServiceClient implements IFileService{
 	
 	@Override
 	public void deleteFile(FileDTO dto) {
-		// TODO Auto-generated method stub
-		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+	    headers.setContentType(MediaType.APPLICATION_XML);
+		HttpEntity<FileDTO> request = new HttpEntity<>(dto, headers);
+		template.postForObject(this.serviceHost + FileControllerUrls.DELETE_FILE, request, String.class);
 	}
 
 	@Override

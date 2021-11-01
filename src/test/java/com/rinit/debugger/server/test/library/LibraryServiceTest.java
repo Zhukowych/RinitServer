@@ -34,7 +34,7 @@ public class LibraryServiceTest {
 	@Test
 	public void getLibraryByPathName() throws LibraryNotFoundException {
 		LibraryDriver library = this.libraryService.getLibraryByPathName("/lib/bin/", "test_lib_dev");
-		System.out.println(library.getLoadedClasses());
+		System.out.println(library.getLoadedClasses() );
 	}
 	
 }

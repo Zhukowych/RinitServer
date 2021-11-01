@@ -1,5 +1,10 @@
 package com.rinit.debugger.server.dev.core;
 
-public interface DevBin {
+import com.rinit.debugger.server.file.bin.AbstractBin;
 
+public interface DevBin {
+	
+	public String getName();
+	public Class<? extends AbstractBin> getBinClass();
+	
 }

@@ -16,4 +16,6 @@ public abstract class AbstractBin {
 	}
 	
 	public abstract void run();
+	public abstract String getStarterMessage();
+	
 }

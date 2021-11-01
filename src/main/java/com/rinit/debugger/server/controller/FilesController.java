@@ -53,6 +53,13 @@ public class FilesController {
 		}
 		return new ResponseEntity<>(savedFile, HttpStatus.OK);
 	}
+
+	@PostMapping(FileControllerUrls.DELETE_FILE)
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(@RequestBody FileDTO fileDTO) {
+		this.fileService.deleteFile(fileDTO);
+		return new ResponseEntity<>("ok", HttpStatus.OK);
+	}
 	
 	@GetMapping(FileControllerUrls.GET_FILES_URL)
 	@ResponseBody
