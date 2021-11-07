@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.rinit.debugger.server.controller.urls.FileControllerUrls;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
+import com.rinit.debugger.server.file.AbstractDriver;
 import com.rinit.debugger.server.services.interfaces.IFileService;
 
 public class FileServiceClient implements IFileService{
@@ -46,6 +47,18 @@ public class FileServiceClient implements IFileService{
 		return createdFile;
 	}
 
+	@Override
+	public FileDTO saveFile(AbstractDriver file) throws ServiceException {
+		file.setContent(file.buildContent());
+		return this.saveFile(file.toDTO());
+	}
+
+	@Override
+	public FileDTO createFile(AbstractDriver file) throws ServiceException {
+		file.setContent(file.buildContent());
+		return this.createFile(file.toDTO());
+	}
+	
 	@Override
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException {
 		// TODO Auto-generated method stub

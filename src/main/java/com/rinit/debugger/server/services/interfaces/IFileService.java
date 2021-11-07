@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
+import com.rinit.debugger.server.file.AbstractDriver;
 
 public interface IFileService {
 	public FileDTO saveFile(FileDTO file) throws ServiceException;
+	public FileDTO saveFile(AbstractDriver file) throws ServiceException;
+
 	
 	public FileDTO createFile(FileDTO file) throws ServiceException;
+	public FileDTO createFile(AbstractDriver file) throws ServiceException;
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException;
 
 	public List<FileDTO> getFilesByPath(String path);

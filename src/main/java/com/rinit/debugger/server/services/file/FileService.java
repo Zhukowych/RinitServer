@@ -13,6 +13,7 @@ import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.dto.FileDTOMapper;
 import com.rinit.debugger.server.entity.FileEntity;
 import com.rinit.debugger.server.exception.ServiceException;
+import com.rinit.debugger.server.file.AbstractDriver;
 import com.rinit.debugger.server.repository.FileRepository;
 import com.rinit.debugger.server.services.interfaces.IFileService;
 import com.rinit.debugger.server.utils.ExceptionUtils;
@@ -131,6 +132,18 @@ public class FileService implements IFileService {
 		}
 		return mapper.entityToDTO(entity);
 		
+	}
+
+	@Override
+	public FileDTO saveFile(AbstractDriver file) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FileDTO createFile(AbstractDriver file) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

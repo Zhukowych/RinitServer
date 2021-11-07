@@ -16,8 +16,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
 public class XMLReader {
@@ -27,6 +25,7 @@ public class XMLReader {
 	
 	public XMLReader(String xml) {
 		this.xml = xml;
+		this.document = this.getDocument();
 	}
 	
 	public String nodeToString(Node node) {
@@ -54,6 +53,25 @@ public class XMLReader {
 
         return null;
     }
+	
+	public String getTagValueByName(String tagName, String elementName) {
+		return this.getTagValue(tagName, this.getElementByName(elementName));
+	}
+	
+	public String[][] getTableData(String parentElement, String[] tagNames){
+		NodeList nodes = this.document.getElementsByTagName(parentElement);
+		String[][] data = new String[nodes.getLength()][tagNames.length];
+		for (int row = 0; row < nodes.getLength(); row++) {
+			for (int col = 0; col < tagNames.length; col++) {
+				data[row][col] = this.getTagValue(tagNames[col], (Element)nodes.item(row));
+			}
+		}
+		return data;
+	}
+	
+	public Element getElementByName(String tagName){
+		return (Element)this.document.getElementsByTagName(tagName).item(0);
+	}
 	
 	public String innerXml(String tag) {
 		String openTag = String.format("<%s>", tag);
