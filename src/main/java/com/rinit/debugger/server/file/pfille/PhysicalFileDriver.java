@@ -1,6 +1,8 @@
 
 package com.rinit.debugger.server.file.pfille;
 
+import java.io.Serializable;
+
 import org.w3c.dom.Document;
 
 import com.rinit.debugger.server.dto.FileDTO;
@@ -18,13 +20,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PhysicalFileDriver implements IFileDriver{
+public class PhysicalFileDriver implements IFileDriver, Serializable{
 	
 	private String name;
 	private String filePath;
 	
 	private static final String EXTENTION = "physical_file";
-	private static final String FILE_SYSTEM_DIR = "/physical_files/";
+	public static final String FILE_SYSTEM_DIR = "/physical_files/";
 	
 	@Override
 	public void fromDTO(FileDTO dto) {

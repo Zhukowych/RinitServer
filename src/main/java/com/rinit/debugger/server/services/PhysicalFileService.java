@@ -2,7 +2,10 @@ package com.rinit.debugger.server.services;
 
 import java.io.File;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,13 +47,10 @@ public class PhysicalFileService implements IPhysicalFileService {
     	try {
     		fileDTO = fileService.createFile(physicalFile.toDTO());
     	} catch(ServiceException ex) {
-    		throw new ServiceException(ex.getMessage());
+    		this.fileService.deleteFile(fileService.getFileByPathAndName(PhysicalFileDriver.FILE_SYSTEM_DIR, physicalFile.getName()).get(0));
+    		fileDTO = fileService.createFile(physicalFile.toDTO());
     	}
-    	
-	    if (isFileExists(copyLocation.toString())) {
-	    	fileService.deleteFile(fileDTO);
-	    	throw new ServiceException(String.format("Physical file with name %s already exists", file.getOriginalFilename()));
-	    }
+    
 	    try {
 			Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
@@ -61,13 +61,18 @@ public class PhysicalFileService implements IPhysicalFileService {
 
 	    return physicalFile;
 	}
-	
-	private boolean isFileExists(String filePath) {
-		File file = new File(filePath);
-		if (file.exists()) {
-			return true;
-		} else {
-			return false;
+
+	@Override
+	public InputStream getPfileByPhysicalPath(String ppath) throws ServiceException {
+		File file = new File(ppath);
+		InputStream resource = null;
+	    try {
+			 resource = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new ServiceException(String.format("file with path %s not founded", ppath));
 		}
+
+		return resource;
 	}
+
 }

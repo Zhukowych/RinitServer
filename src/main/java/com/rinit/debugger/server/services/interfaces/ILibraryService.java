@@ -14,6 +14,6 @@ public interface ILibraryService {
 	public List<String> getLocatedPathes();
 	public List<String> getLibrariesNamesByPath(String path) throws ServiceException;
 	
-	public void checkLibraries();
+	public void autodiscover();
 
 }

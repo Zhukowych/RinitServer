@@ -22,6 +22,14 @@ public class LibraryController {
 	@Autowired
 	private LibraryService libraryService;
 	
+
+	@GetMapping(LibraryControllerUrls.AUTODISCOVER_LIBRARIES)
+	@ResponseBody
+	public String autodiscover() throws LibraryNotFoundException {
+		this.libraryService.autodiscover();	
+		return "ok";
+	}
+	
 	
 	@GetMapping(LibraryControllerUrls.GET_LIBRARY_BY_PATH_NAME)
 	@ResponseBody

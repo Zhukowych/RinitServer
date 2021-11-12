@@ -1,5 +1,6 @@
 package com.rinit.debugger.server.file.library;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LibraryDriver implements IFileDriver{
+public class LibraryDriver implements IFileDriver, Serializable{
 
 	public final static String EXTENTION = "lib";
 

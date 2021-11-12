@@ -16,6 +16,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.rinit.debugger.server.controller.PhysicalFileController;
+import com.rinit.debugger.server.controller.urls.PhysicalFileControllerUrls;
 import com.rinit.debugger.server.utils.FileToBytesConverter;
 
 @SpringBootTest
@@ -35,7 +36,7 @@ public class PhysicalFileTest {
 	        new FileToBytesConverter("src/test/resources/test_executable.jar").getBytes()
 	    	);
 	    
-		this.mockMvc.perform(multipart(PhysicalFileController.LOAD_FILE_URL)
+		this.mockMvc.perform(multipart(PhysicalFileControllerUrls.LOAD_FILE_URL)
 								.file(file)
 								.param("name", testFileName)	
 							)

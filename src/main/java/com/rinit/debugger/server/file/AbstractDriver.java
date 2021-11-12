@@ -6,6 +6,10 @@ public abstract class AbstractDriver {
 
 	protected FileDTO dto = new FileDTO();
 	
+	public boolean isDirable() {
+		return false;
+	}
+	
 	public void fromDTO(FileDTO dto) {
 		this.dto = dto;
 		this.buildFromDTO();

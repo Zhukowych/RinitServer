@@ -1,11 +1,11 @@
 package com.rinit.debugger.server.file.library;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 
-public class LibraryLoadReport {
+public class LibraryLoadReport implements Serializable{
 	
 	private String libraryName;
 	private String libraryPath;

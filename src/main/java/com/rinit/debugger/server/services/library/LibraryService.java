@@ -76,7 +76,7 @@ public class LibraryService implements ILibraryService {
 	}
 	
 	@Override
-	public void checkLibraries() {
+	public void autodiscover() {
 		List<String> libratiesDirs = fileService.getAllChildrenDirs("/lib/", Extentions.DIRECTORY);
 		this.checkLibrariesByDir(libratiesDirs);
 		this.logResult();
@@ -116,7 +116,6 @@ public class LibraryService implements ILibraryService {
 		FileDTO libraryFile = this.fileService.getFileByPathAndName(path, name).get(0);
 		LibraryDriver library = new LibraryDriver();
 		library.fromDTO(libraryFile);
-		library.loadClasses();
 		return library;
 	}
 	

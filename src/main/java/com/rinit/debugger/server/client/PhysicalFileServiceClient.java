@@ -1,7 +1,13 @@
 package com.rinit.debugger.server.client;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 import org.springframework.core.io.InputStreamResource;
@@ -15,12 +21,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.rinit.debugger.server.client.interfaces.IPhysicalFileServiceClient;
 import com.rinit.debugger.server.controller.urls.FileControllerUrls;
+import com.rinit.debugger.server.controller.urls.PhysicalFileControllerUrls;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 import com.rinit.debugger.server.services.interfaces.IPhysicalFileService;
 
-public class PhysicalFileServiceClient implements IPhysicalFileService {
+public class PhysicalFileServiceClient implements IPhysicalFileServiceClient {
 
 	private String serviceHost;
 	private RestTemplate template = new RestTemplate();
@@ -56,6 +64,40 @@ public class PhysicalFileServiceClient implements IPhysicalFileService {
 	    return response;
 	}
 
+	@Override
+	public PhysicalFileDriver downloadPhysicalFileByPath(String ppath) {
+		String path = this.downloadPhysicalFileByPhysicalLocatin(ppath);
+		PhysicalFileDriver pfile = new PhysicalFileDriver();
+		pfile.setFilePath(path);
+		return pfile;
+	}
+
+	@Override
+	public InputStream getPfileByPhysicalPath(String ppath) throws ServiceException {
+		return null;
+	}
+
+	private String downloadPhysicalFileByPhysicalLocatin(String ppath) {
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.serviceHost + PhysicalFileControllerUrls.DOWNLOAD_FILE_BY_PHYSICAL_PATH);
+	    builder.queryParam("ppath", ppath.replace("\\", "/"));
+
+	    byte[] fileBytesBytes = this.template.getForObject(builder.toUriString(), byte[].class);
+
+	    
+		Path path = Paths.get(ppath);
+		String fileName = path.getFileName().toString();
+		
+		InputStream stream = new ByteArrayInputStream(fileBytesBytes);
+		File file = new File("jars/"+fileName).getAbsoluteFile();
+		Path copyLocation = Paths.get(file.getParent() + File.separator + fileName);
+		try {
+			Files.copy(stream, copyLocation, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return copyLocation.toString();
+	}
 }
 
 class MultipartInputStreamFileResource extends InputStreamResource {
