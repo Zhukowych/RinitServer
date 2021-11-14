@@ -61,9 +61,21 @@ public class FileServiceClient implements IFileService{
 	
 	@Override
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		List<FileDTO> dtos =this.getFileByPathAndName(dto.getPath(), dto.getName());
+		if (dtos.size() != 0)
+			dto.setId(dtos.get(0).getId());	
+		this.saveFile(dto);
+		return dto;
+	}	
+		
+
+	@Override
+	public FileDTO createOrCheckFile(AbstractDriver dto) throws ServiceException {
+		FileDTO file = dto.toDTO();
+		file = this.createOrCheckFile(file);
+		return file;
 	}
+		
 
 	@Override
 	public List<FileDTO> getFilesByPath(String path) {

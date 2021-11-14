@@ -38,9 +38,9 @@ public class FileService implements IFileService {
 	
 	@Override
 	public FileDTO saveFile(FileDTO file) throws ServiceException {
-		if(!this.isFileExists(file)) {
-			throw new ServiceException(String.format("Thre is no file with path %s and %s", file.getPath(), file.getName()));
-		}
+//		if(!this.isFileExists(file)) {
+//			throw new ServiceException(String.format("Thre is no file with path %s and %s", file.getPath(), file.getName()));
+//		}
 		return this.saveDTO(file);
 	}
 	
@@ -142,6 +142,12 @@ public class FileService implements IFileService {
 
 	@Override
 	public FileDTO createFile(AbstractDriver file) throws ServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FileDTO createOrCheckFile(AbstractDriver dto) throws ServiceException {
 		// TODO Auto-generated method stub
 		return null;
 	}

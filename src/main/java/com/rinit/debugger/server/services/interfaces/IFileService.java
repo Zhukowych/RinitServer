@@ -14,7 +14,9 @@ public interface IFileService {
 	public FileDTO createFile(FileDTO file) throws ServiceException;
 	public FileDTO createFile(AbstractDriver file) throws ServiceException;
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException;
+	public FileDTO createOrCheckFile(AbstractDriver dto) throws ServiceException;
 
+	
 	public List<FileDTO> getFilesByPath(String path);
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention);
 	public List<FileDTO> getFileByPathAndName(String path, String name);

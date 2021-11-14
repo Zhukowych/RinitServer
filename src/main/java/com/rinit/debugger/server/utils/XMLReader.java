@@ -28,6 +28,13 @@ public class XMLReader {
 		this.document = this.getDocument();
 	}
 	
+	public boolean isOk() {
+		if (this.document != null)
+			return true;
+		else 
+			return false;
+	}
+	
 	public String nodeToString(Node node) {
 	    StringWriter sw = new StringWriter();
 	    try {
@@ -84,6 +91,8 @@ public class XMLReader {
 	public Document getDocument() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
+        if(this.xml.isEmpty()) 
+        	return null;
         try {
             builder = factory.newDocumentBuilder();
             this.document = builder.parse(new InputSource(new StringReader(this.xml)));
