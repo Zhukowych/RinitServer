@@ -6,5 +6,6 @@ public class FileControllerUrls {
 	public static final String CREATE_FILE_URL = "/file/";
 	public static final String SAVE_FILE = "/save_file/";
 	public static final String DELETE_FILE = "/delete_file/";
+	public static final String DELETE_CHILDRENS = "/delete_childrens/";
 	public static final String LOAD_PHYSICAL_FILE_URL = "/upload_physical_file/";
 }

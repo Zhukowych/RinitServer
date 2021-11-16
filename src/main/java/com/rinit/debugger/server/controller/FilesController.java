@@ -54,12 +54,25 @@ public class FilesController {
 		return new ResponseEntity<>(savedFile, HttpStatus.OK);
 	}
 
-	@PostMapping(FileControllerUrls.DELETE_FILE)
+	@GetMapping(FileControllerUrls.DELETE_CHILDRENS)
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(@RequestBody FileDTO fileDTO) {
-		this.fileService.deleteFile(fileDTO);
+	public ResponseEntity<String> deleteAll(@RequestParam("path") String path) {
+		try {
+			this.fileService.deleteAllChildrenOfPath(path);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		return new ResponseEntity<>("ok", HttpStatus.OK);
 	}
+	
+	
+	@PostMapping(FileControllerUrls.DELETE_FILE)
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(@RequestBody FileDTO dto) {
+		this.fileService.deleteFile(dto);
+		return new ResponseEntity<>("ok", HttpStatus.OK);
+	}
+	
 	
 	@GetMapping(FileControllerUrls.GET_FILES_URL)
 	@ResponseBody

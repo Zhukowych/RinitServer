@@ -1,5 +1,6 @@
 package com.rinit.debugger.server.client;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,14 +117,19 @@ public class FileServiceClient implements IFileService{
 
 	@Override
 	public void deleteAllChildrenOfPath(String path) throws ServiceException {
-		// TODO Auto-generated method stub
-		
+		String url = this.serviceHost + FileControllerUrls.DELETE_CHILDRENS;
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url);
+	    builder.queryParam("path", path);
+	    this.template.getForObject(builder.toUriString(), String.class);		
 	}
 
 	@Override
 	public boolean isFileExists(FileDTO dto) {
-		// TODO Auto-generated method stub
-		return false;
+		List<FileDTO> files = this.getFileByPathAndName(dto.getPath(), dto.getName());
+		if(files.size() != 0)
+			return true;
+		else
+			return false;
 	}
 
 	@Override
@@ -134,8 +140,12 @@ public class FileServiceClient implements IFileService{
 
 	@Override
 	public List<FileDTO> getFilesByParentPathExtention(String parentPath, String extention) {
-		// TODO Auto-generated method stub
-		return null;
+		List<FileDTO> result = new ArrayList<FileDTO>();
+		for (FileDTO dto : this.getFilesByPath(parentPath)) {
+			if (dto.getExtention().equals(extention))
+				result.add(dto);
+		}
+		return result;
 	}
 	
 }

@@ -13,7 +13,7 @@ import com.rinit.debugger.server.entity.FileEntity;
 @Repository
 public interface FileRepository extends CrudRepository<FileEntity, Long>{
 
-	@Query("SELECT `id`, `name`, `extention`, `path`, `position`, `content` FROM `files` WHERE path = :name")
+	@Query("SELECT `id`, `name`, `extention`, `path`, `position`, `content` FROM `files` WHERE path = :name ORDER BY `position`")
 	List<FileEntity> getFilesByPath(@Param("name") String name);
 	
 	@Query("SELECT `id`, `name`, `extention`, `path`, `position`, `content` FROM `files` WHERE path = :name AND extention = :extention")
