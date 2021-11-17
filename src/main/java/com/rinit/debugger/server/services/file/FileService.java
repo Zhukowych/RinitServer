@@ -52,6 +52,7 @@ public class FileService implements IFileService {
 		return this.saveDTO(file);
 	}
 	
+	
 	@Override
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException {
 		if (!this.isFileExists(dto)) {
@@ -60,6 +61,25 @@ public class FileService implements IFileService {
 		return dto;
 	}
 
+	@Override
+	public void copyFile(FileDTO dto, String destination) {
+		System.out.println(dto.getPath());
+		System.out.println(dto.getName());
+		System.out.println(destination);
+		this.repository.copyFile(dto.getPath(), dto.getName(), destination);
+		this.repository.copyAll(dto.getChildrenPath(), destination);
+	}
+
+	@Override
+	public void renMove(FileDTO dto, String destination) {
+		this.repository.copyFile(dto.getPath(), dto.getName(), destination);
+		this.repository.copyAll(dto.getChildrenPath(), destination);
+		this.deleteFile(dto);
+		try {
+			this.deleteAllChildrenOfPath(dto.getChildrenPath());
+		} catch (ServiceException e) {e.printStackTrace();}
+	}
+	
 	@Override
 	public List<FileDTO> getFilesByPath(String path) {
 		List<FileEntity> entities = this.repository.getFilesByPath(path);
@@ -151,6 +171,7 @@ public class FileService implements IFileService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	
 }

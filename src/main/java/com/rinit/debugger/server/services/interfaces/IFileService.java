@@ -16,6 +16,8 @@ public interface IFileService {
 	public FileDTO createOrCheckFile(FileDTO dto) throws ServiceException;
 	public FileDTO createOrCheckFile(AbstractDriver dto) throws ServiceException;
 
+	public void copyFile(FileDTO dto, String destination);
+	public void renMove(FileDTO dto, String destination);
 	
 	public List<FileDTO> getFilesByPath(String path);
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention);

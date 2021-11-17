@@ -53,6 +53,21 @@ public class FilesController {
 		}
 		return new ResponseEntity<>(savedFile, HttpStatus.OK);
 	}
+	
+	@PostMapping(FileControllerUrls.COPY_FILE)
+	@ResponseBody
+	public ResponseEntity<String> copyFile(@RequestBody FileDTO fileDTO, @RequestParam("destination") String destination){
+		this.fileService.copyFile(fileDTO, destination);
+		return new ResponseEntity<>("ok", HttpStatus.OK);
+	}
+	
+	@PostMapping(FileControllerUrls.REN_MOVE_FILE)
+	@ResponseBody
+	public ResponseEntity<String> renMoveFile(@RequestBody FileDTO fileDTO, @RequestParam("destination") String destination){
+		this.fileService.renMove(fileDTO, destination);
+		return new ResponseEntity<>("ok", HttpStatus.OK);
+	}
+	
 
 	@GetMapping(FileControllerUrls.DELETE_CHILDRENS)
 	@ResponseBody

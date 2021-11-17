@@ -77,6 +77,27 @@ public class FileServiceClient implements IFileService{
 		return file;
 	}
 		
+	@Override
+	public void copyFile(FileDTO dto, String destination) {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+	    headers.setContentType(MediaType.APPLICATION_XML);
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.serviceHost + FileControllerUrls.COPY_FILE);
+		HttpEntity<FileDTO> request = new HttpEntity<>(dto, headers);
+		builder.queryParam("destination", destination);
+		String ok = this.template.postForObject(builder.toUriString(), request, String.class);
+	}
+
+	@Override
+	public void renMove(FileDTO dto, String destination) {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Accept", MediaType.APPLICATION_XML_VALUE);
+	    headers.setContentType(MediaType.APPLICATION_XML);
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.serviceHost + FileControllerUrls.REN_MOVE_FILE);
+		HttpEntity<FileDTO> request = new HttpEntity<>(dto, headers);
+		builder.queryParam("destination", destination);
+		String ok = this.template.postForObject(builder.toUriString(), request, String.class);		
+	}
 
 	@Override
 	public List<FileDTO> getFilesByPath(String path) {
@@ -147,5 +168,5 @@ public class FileServiceClient implements IFileService{
 		}
 		return result;
 	}
-	
+
 }
