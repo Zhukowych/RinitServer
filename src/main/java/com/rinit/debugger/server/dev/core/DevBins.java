@@ -41,7 +41,6 @@ public class DevBins {
 			return devBinClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

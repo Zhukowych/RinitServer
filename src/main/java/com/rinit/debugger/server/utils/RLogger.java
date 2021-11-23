@@ -28,7 +28,6 @@ public class RLogger {
 		try {
 			this.fileService.saveFile(logFile);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

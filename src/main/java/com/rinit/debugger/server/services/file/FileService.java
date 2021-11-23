@@ -63,21 +63,16 @@ public class FileService implements IFileService {
 
 	@Override
 	public void copyFile(FileDTO dto, String destination) {
-		System.out.println(dto.getPath());
-		System.out.println(dto.getName());
-		System.out.println(destination);
 		this.repository.copyFile(dto.getPath(), dto.getName(), destination);
+		destination = destination + dto.getName() + "/";
 		this.repository.copyAll(dto.getChildrenPath(), destination);
 	}
 
 	@Override
 	public void renMove(FileDTO dto, String destination) {
-		this.repository.copyFile(dto.getPath(), dto.getName(), destination);
-		this.repository.copyAll(dto.getChildrenPath(), destination);
-		this.deleteFile(dto);
-		try {
-			this.deleteAllChildrenOfPath(dto.getChildrenPath());
-		} catch (ServiceException e) {e.printStackTrace();}
+		this.repository.renMoveFile(dto.getPath(), dto.getName(), destination);
+		destination = destination + dto.getName() + "/";
+		this.repository.renMoveAll(dto.getChildrenPath(), destination);
 	}
 	
 	@Override
@@ -156,19 +151,16 @@ public class FileService implements IFileService {
 
 	@Override
 	public FileDTO saveFile(AbstractDriver file) throws ServiceException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public FileDTO createFile(AbstractDriver file) throws ServiceException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public FileDTO createOrCheckFile(AbstractDriver dto) throws ServiceException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

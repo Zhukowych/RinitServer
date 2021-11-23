@@ -11,7 +11,6 @@ public class TestBin extends AbstractBin {
 
 	@Override
 	public String getStarterMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

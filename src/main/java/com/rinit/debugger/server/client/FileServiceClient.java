@@ -114,7 +114,6 @@ public class FileServiceClient implements IFileService{
 
 	@Override
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -155,7 +154,6 @@ public class FileServiceClient implements IFileService{
 
 	@Override
 	public List<String> getAllChildrenDirs(String baseDir, String extention) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

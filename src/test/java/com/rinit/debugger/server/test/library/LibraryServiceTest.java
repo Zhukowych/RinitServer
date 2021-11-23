@@ -26,7 +26,6 @@ public class LibraryServiceTest {
 		try {
 			System.out.println(this.libraryService.getLibrariesNamesByPath("/lib/bin/"));
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -80,13 +80,22 @@ public interface FileRepository extends CrudRepository<FileEntity, Long>{
 	void deleteAllChildrensOfPath(@Param("path") String path);
 
 	@Modifying
-	@Query("UPDATE `files` SET `path` = :destinationPath WHERE `path` = :sourcePath AND `name` = :sourceName;")
+	@Query("INSERT INTO `files` (`name`, `extention`, `path`, `position`, `content`) SELECT `name`, `extention`, :destinationPath, `position`, `content` FROM files WHERE `path` = :sourcePath AND `name` = :sourceName;")
 	void copyFile(@Param("sourcePath") String sourcePath, @Param("sourceName") String sourceName, @Param("destinationPath") String destinationPath);
 
 	@Modifying
-	@Query("UPDATE `files` SET `path` = :destinationPath WHERE `path` LIKE CONCAT(:destinationPath, '%')")
+	@Query("INSERT INTO `files` (`name`, `extention`, `path`, `position`, `content`) SELECT `name`, `extention`, REPLACE(`path`, :sourcePath, :destinationPath) , `position`, `content` FROM files WHERE `path` LIKE CONCAT(:sourcePath, '%')")
 	void copyAll(@Param("sourcePath") String sourcePath, @Param("destinationPath") String destinationPath);
 
+	@Modifying
+	@Query("UPDATE `files` SET `path`= :destinationPath WHERE `path` = :sourcePath AND `name` = :sourceName;")
+	void renMoveFile(@Param("sourcePath") String sourcePath, @Param("sourceName") String sourceName, @Param("destinationPath") String destinationPath);
+
+	@Modifying
+	@Query("UPDATE `files` SET `path` = REPLACE(`path`, :sourcePath, :destinationPath) WHERE `path` LIKE CONCAT(:sourcePath, '%')")
+	void renMoveAll(@Param("sourcePath") String sourcePath, @Param("destinationPath") String destinationPath);
+
+	
 	
 }
 
