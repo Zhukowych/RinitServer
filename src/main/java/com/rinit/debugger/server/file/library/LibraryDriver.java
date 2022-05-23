@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rinit.debugger.server.dto.FileDTO;
+import com.rinit.debugger.server.file.AbstractDriver;
 import com.rinit.debugger.server.file.IFileDriver;
 import com.rinit.debugger.server.file.pfille.PhysicalFileDriver;
 
@@ -16,7 +17,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LibraryDriver implements IFileDriver, Serializable{
+public class LibraryDriver extends AbstractDriver implements IFileDriver, Serializable {
 
 	public final static String EXTENTION = "lib";
 
@@ -74,6 +75,10 @@ public class LibraryDriver implements IFileDriver, Serializable{
 		return this.loadReport;
 	}
 	
+	public void addClass(String name, Class<?> clazz) {
+		this.loadedClasses.put(name, clazz);
+	}
+	
 	public Class<?> getClassWithName(String name) throws LibraryClassNotFoundException{
 		Class<?> libraryClass = this.loadedClasses.get(name);
 		if (libraryClass != null) {
@@ -81,6 +86,21 @@ public class LibraryDriver implements IFileDriver, Serializable{
 		} else {
 			throw new LibraryClassNotFoundException(String.format("There is no class with name %s in library", name));
 		}
+	}
+
+	@Override
+	protected void buildFromDTO() {
+		 this.name = dto.getName();
+		 this.path = dto.getPath();
+		 LibraryImporter parser = new LibraryImporter();
+		 parser.parse(this.getContent());
+		 this.physicalFile = parser.getPhysicalFile();
+		 this.classesToLoad = parser.getClassesToLoad();
+	}
+
+	@Override
+	public String buildContent() {
+		return this.getContent();
 	}
 	
 }

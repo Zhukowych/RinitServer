@@ -114,7 +114,11 @@ public class FileServiceClient implements IFileService{
 
 	@Override
 	public List<FileDTO> getFilesByPathAndExtention(String path, String extention) {
-		return null;
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.serviceHost + FileControllerUrls.GET_FILES_BY_PATH_EXTENTION);
+		builder.queryParam("path", path);
+		builder.queryParam("extention", extention);
+		List<FileDTO> files = new ArrayList<FileDTO>(Arrays.asList(this.template.getForObject(builder.toUriString(), FileDTO[].class)));
+		return files;
 	}
 
 	@Override

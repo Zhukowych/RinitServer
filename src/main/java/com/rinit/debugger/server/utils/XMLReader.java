@@ -2,6 +2,8 @@ package com.rinit.debugger.server.utils;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -86,6 +88,18 @@ public class XMLReader {
 		int openTagInd = xml.indexOf(openTag);
 		int closeTagInd = xml.indexOf(closeTag);
 		return xml.substring(openTagInd, closeTagInd+closeTag.length());
+	}
+	
+	public List<String> innerXmls(String tag){
+		List<String> innerXmls = new ArrayList<String>();
+		String openTag = String.format("<%s>", tag);
+		String closeTag = String.format("</%s>", tag);
+		List<Integer> openTagOcurrences = StringUtils.findAllOcurrences(this.xml, openTag);
+		List<Integer> closeTagOcurrences = StringUtils.findAllOcurrences(this.xml, closeTag);
+		for (int i = 0; i<openTagOcurrences.size(); i++) {
+			innerXmls.add(this.xml.substring(openTagOcurrences.get(i), closeTagOcurrences.get(i) + closeTag.length()));
+		}
+		return innerXmls;
 	}
 	
 	public Document getDocument() {

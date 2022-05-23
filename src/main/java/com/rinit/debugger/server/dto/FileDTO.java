@@ -25,6 +25,10 @@ public class FileDTO {
 		return String.format("%s%s/", this.path, this.name);
 	}
 	
+	public String getFullName() {
+		return String.format("%s%s.%s", this.path, this.name, this.extention);
+	}
+	
 	public void write(String string) {
 		if (this.content == null)
 			this.content = "";

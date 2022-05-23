@@ -100,5 +100,12 @@ public class FilesController {
 	public List<FileDTO> getFileByPathAndName(@RequestParam("path") String path, @RequestParam("name") String name){
 		return this.fileService.getFileByPathAndName(path, name);
 	}
+	
+	@GetMapping(FileControllerUrls.GET_FILES_BY_PATH_EXTENTION)
+	@ResponseBody
+	public List<FileDTO> getFileByPathAndExtention(@RequestParam("path") String path, @RequestParam("extention") String extention){
+		return this.fileService.getFilesByPathAndExtention(path, extention);
+	}
+	
 
 }
