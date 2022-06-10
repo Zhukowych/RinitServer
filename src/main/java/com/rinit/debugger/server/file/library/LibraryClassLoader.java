@@ -54,7 +54,7 @@ public class LibraryClassLoader {
 		} catch (MalformedURLException e1) {
 			String error = String.format("There is no physical file with path %s", this.physicalFile.getFilePath());
 			this.loadReport.addError(error);
-			logger.error(error);
+			e1.printStackTrace();
 		}
 		for (ClassToLoadInfo loadInfo : this.classesToLoad) {
 			try {
@@ -63,10 +63,10 @@ public class LibraryClassLoader {
 						this.getClassFromClassLoader(loadInfo, child)
 					);
 				this.loadReport.addLoadedClass(loadInfo);
-			} catch (ClassNotFoundException e) {
+			} catch (Exception e) {
 				String error = String.format("Can't load class %s from jar file %s", loadInfo.getPath(), this.physicalFile.getFilePath()); 
 				this.loadReport.addError(error);
-				logger.error(error);
+				e.printStackTrace();
 			}
 		}
 	}

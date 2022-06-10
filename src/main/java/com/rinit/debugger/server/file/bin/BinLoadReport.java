@@ -28,7 +28,7 @@ public class BinLoadReport {
 		builder.append(this.libraryName);
 		builder.append("</libraryName>");
 		if(this.error != null) {
-			builder.append("</error>");
+			builder.append("<error>");
 			builder.append(this.error);
 			builder.append("</error>");		
 		} else {

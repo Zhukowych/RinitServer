@@ -13,6 +13,7 @@
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/file/library/LibraryExporter.java
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/file/library/LibraryClassNotFoundException.java
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/controller/LibraryController.java
+/home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/utils/StringUtils.java
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/client/PhysicalFileServiceClient.java
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/dev/core/DevLibs.java
 /home/zhukowych/proj/RinitServer/src/main/java/com/rinit/debugger/server/client/FileDriverServiceClient.java

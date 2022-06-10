@@ -72,6 +72,10 @@ public abstract class AbstractDriver {
 		return this.dto.getChildrenPath();
 	}
 	
+	public String getFullName() {
+		return this.dto.getFullName();
+	}
+	
 	protected abstract void buildFromDTO();
 	public abstract String buildContent();
 	

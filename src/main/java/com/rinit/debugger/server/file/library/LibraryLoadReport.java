@@ -13,6 +13,14 @@ public class LibraryLoadReport implements Serializable{
 	private List<ClassToLoadInfo> loadedClasses = new ArrayList<ClassToLoadInfo>();
 	private List<String> errors = new ArrayList<String>();
 	
+	public LibraryLoadReport() {}
+	
+	public LibraryLoadReport(String libraryName, String libraryPath, LibraryDriver d) {
+		this.libraryName = libraryName;
+		this.libraryPath = libraryPath;
+		this.library = d;
+	}
+	
 	public void setLibrary(LibraryDriver library) {
 		this.library = library;
 	}

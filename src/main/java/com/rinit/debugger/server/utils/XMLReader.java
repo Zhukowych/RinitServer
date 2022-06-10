@@ -97,7 +97,8 @@ public class XMLReader {
 		List<Integer> openTagOcurrences = StringUtils.findAllOcurrences(this.xml, openTag);
 		List<Integer> closeTagOcurrences = StringUtils.findAllOcurrences(this.xml, closeTag);
 		for (int i = 0; i<openTagOcurrences.size(); i++) {
-			innerXmls.add(this.xml.substring(openTagOcurrences.get(i), closeTagOcurrences.get(i) + closeTag.length()));
+			if (openTagOcurrences.get(i) != -1 && closeTagOcurrences.get(i) != -1) 
+				innerXmls.add(this.xml.substring(openTagOcurrences.get(i), closeTagOcurrences.get(i) + closeTag.length()));
 		}
 		return innerXmls;
 	}

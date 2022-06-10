@@ -48,7 +48,7 @@ public class LibraryServiceClient implements ILibraryServiceClient {
 
 	@Override
 	public void autodiscover() {
-		this.template.getForObject(this.serviceHost = LibraryControllerUrls.AUTODISCOVER_LIBRARIES, String.class);
+		this.template.getForObject(this.serviceHost + LibraryControllerUrls.AUTODISCOVER_LIBRARIES, String.class);
 	}
 
 	@Override

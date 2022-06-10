@@ -16,6 +16,7 @@ import com.rinit.debugger.server.dev.core.DevLibs;
 import com.rinit.debugger.server.dto.FileDTO;
 import com.rinit.debugger.server.exception.ServiceException;
 import com.rinit.debugger.server.file.library.LibraryDriver;
+import com.rinit.debugger.server.file.library.LibraryLoadReport;
 import com.rinit.debugger.server.file.library.LibraryLoadReportDeserializer;
 import com.rinit.debugger.server.file.library.LibraryLoadReportSerializer;
 import com.rinit.debugger.server.file.library.LibraryNotFoundException;
@@ -140,8 +141,7 @@ public class LibraryService implements ILibraryService {
 		for (FileDTO dto : librariesDTOs) {
 			LibraryDriver library = new LibraryDriver();
 			library.fromDTO(dto);
-			library.loadClasses();
-			this.serviceStatusReport.addLibraryReport(library.getLoadReport());
+			this.serviceStatusReport.addLibraryReport(new LibraryLoadReport(library.getName(), library.getPath(), library));
 		}
 	}
 	

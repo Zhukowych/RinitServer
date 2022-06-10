@@ -37,6 +37,7 @@ public class LibraryImporter {
 	private void parseClassesToLoad(XMLReader reader, Document document) {
 		NodeList classesToLoad = document.getElementsByTagName("loadClass");
 		for (int i = 0; i < classesToLoad.getLength(); i++) {
+		
 			Node node = classesToLoad.item(i);
 			ClassToLoadInfo classInfo = ClassToLoadInfo.builder().name(
 						reader.getTagValue("name", (Element)node)
@@ -46,6 +47,7 @@ public class LibraryImporter {
 					.build();
 			this.classesToLoad.add(classInfo);
 		}
+
 	}
 	
 }
